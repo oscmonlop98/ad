@@ -11,3 +11,8 @@
 
  Clonar en mi home: 
   git clone https://github.com/oscmonlop98/ad.git
+
+Configuración local de git:
+  git config --global user.name oscmonlop98
+  git config --global user.email oscarmorenolopinfo2@gmail.com
+  git config --global push.default simple
