@@ -1,0 +1,13 @@
+20190916
+ Crear usuario en github:
+  Usuario: oscmonlop98
+  Correo: oscarmorenolopinfo2@gmail.com
+
+ Crear repositorio:
+  Nombre: ad
+  Inicializar con README
+  .gitignore: VisualStudio (por C#)
+  Dirección: https://github.com/oscmonlop98/ad.git
+
+ Clonar en mi home: 
+  git clone https://github.com/oscmonlop98/ad.git
