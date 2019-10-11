@@ -12,7 +12,34 @@
  Clonar en mi home: 
   git clone https://github.com/oscmonlop98/ad.git
 
-Configuración local de git:
+ Configuración local de git:
   git config --global user.name oscmonlop98
   git config --global user.email oscarmorenolopinfo2@gmail.com
   git config --global push.default simple
+
+ Nuevo archivo:
+  git add diario.txt
+  git commit -m "diario.txt con detalles sobre github y git"
+  git push
+
+ Otros comandos:
+  git log
+  git status 
+
+20190920
+
+ En VirtualBox crear máquina virtual instalando ubuntu 16.04:
+  RAM 2048MB, Disco: 20GB, Procesadores: 2
+  usuario: administrador/admin
+  nombre pc: serpisdam
+
+ Actualizar software del equipo
+  apt update
+  apt full-upgrade
+
+ En máquina real: descargar de bitnami.com LAMP e instalar
+  root/sistemas
+ Crear base de datos: dbprueba
+ Crear tabla categoria y añadir datos de prueba: ver dbprueba.sql
+
+
