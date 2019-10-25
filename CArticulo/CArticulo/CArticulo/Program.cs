@@ -21,8 +21,8 @@ namespace CArticulo
 
             Menu.Create("Menú Artículo\n")
                 .Add("1 - Nuevo", nuevo)
-                .Add("2 - Editar", editar)
-                .Add("3 - Borrar", borrar)
+                .Add("2 - Editar", menuEditar)
+                .Add("3 - Borrar", menuBorrar)
                 .Add("4 - Mostrar", mostrar)
                 .ExitWhen("0 - Salir")
                 .Loop();
@@ -52,43 +52,67 @@ namespace CArticulo
 
         }
 
-        private static void editar() {
+        private static void menuEditar() {
 
             Menu.Create("\nMenú Editar\n")
                 .Add("1 - Listar los artículos", modificar)
-                .Add("2 - Volver al menú artículo", editar)
+                .ExitWhen("2 - Volver al menú artículo")
                 .Loop();
+        }
 
+        private static void menuBorrar() {
+
+            Menu.Create("\nMenú Borrar\n")
+                .Add("1 - Listar los artículos", borrar)
+                .ExitWhen("2 - Volver al menú artículo")
+                .Loop();
         }
 
         private static void modificar() {
 
+            string seleccionado = "0";
+            int idSelected = 0;
+
             mostrar();
+            IDbCommand dbCommand = dbConnection.CreateCommand();
 
             Console.WriteLine("Selecciona un artículo: ");
-            string seleccionado = Console.ReadLine();
+            seleccionado = Console.ReadLine();
+            idSelected = Int32.Parse(seleccionado);
 
+            Console.Write("Introduce el nombre del artículo: ");
+            string nombre = Console.ReadLine();
+            Console.Write("Introduce el precio de " + nombre + ": ");
+            string precio = Console.ReadLine();
+            Console.Write("Introduce la categoria de " + nombre + ": ");
+            string categoria = Console.ReadLine();
 
+            //Actualización de datos
+            dbCommand.CommandText = "UPDATE articulo SET nombre = @nombre, precio = @precio, categoria = @categoria WHERE id = @idSelected;";
+            DbCommandHelper.AddParameter(dbCommand, "idSelected", idSelected);
+            DbCommandHelper.AddParameter(dbCommand, "nombre", nombre);
+            DbCommandHelper.AddParameter(dbCommand, "precio", precio);
+            DbCommandHelper.AddParameter(dbCommand, "categoria", categoria);
+            dbCommand.ExecuteNonQuery();
 
         }
 
         private static void borrar() {
-            Console.WriteLine("Ha entrado en borrar");
-            Console.ReadLine();
 
-        }
+            string seleccionado = "0";
+            int idSelected = 0;
 
-        public static int ReadInteger(string label) {
-            while (true) {
-                Console.Write(label);
-                string linea = Console.ReadLine();
-                try {
-                    return Int32.Parse(linea);
-                }
-                catch {
-                    Console.WriteLine("Formato inválido. Vuelve a introducir.");
-                }
-            };
+            mostrar();
+
+            IDbCommand dbCommand = dbConnection.CreateCommand();
+
+            Console.WriteLine("Selecciona un artículo: ");
+            seleccionado = Console.ReadLine();
+            idSelected = Int32.Parse(seleccionado);
+
+            dbCommand.CommandText = "DELETE FROM articulo WHERE id = @idSelected;";
+            DbCommandHelper.AddParameter(dbCommand, "idSelected", idSelected);
+            dbCommand.ExecuteNonQuery();
 
         }
 
@@ -104,13 +128,27 @@ namespace CArticulo
             dataReader.Close();
         }
 
-        //public static int ReadOption(string label, string options) {
+        public static void comprobar(int buscaId) {
+            IDbCommand dbCommand = dbConnection.CreateCommand();
+            dbCommand.CommandText = "select id from articulo where id = buscaId";
+            IDataReader dataReader = dbCommand.ExecuteReader();
+
+
+        
+
+        //public static int ReadInteger(string label) {
         //    while (true) {
         //        Console.Write(label);
-        //        string option = Console.ReadLine();
-        //        if (option == "0")
-        //            return 0;
-        //    }
+        //        string linea = Console.ReadLine();
+        //        try {
+        //            return Int32.Parse(linea);
+        //        }
+        //        catch {
+        //            Console.WriteLine("Formato inválido. Vuelve a introducir.");
+        //        }
+        //    };
+
         //}
+
     }
 }
