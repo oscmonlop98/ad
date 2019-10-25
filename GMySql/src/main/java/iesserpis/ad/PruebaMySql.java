@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 
 public class PruebaMySql {
 
@@ -32,7 +33,7 @@ public class PruebaMySql {
 	
 	private static void insert() throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement("insert into categoria (nombre) values (?)");
-		preparedStatement.setObject(1, "cat 11");
+		preparedStatement.setObject(1, "cat " + LocalDateTime.now());
 		preparedStatement.executeUpdate();
 		preparedStatement.close();
 	}
