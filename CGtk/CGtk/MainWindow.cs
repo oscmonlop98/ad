@@ -1,46 +1,56 @@
-﻿using System;
-using Gtk;
+﻿using Gtk;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Reflection;
+
+using MySql.Data.MySqlClient;
 
 using CGtk;
-using MySql.Data.MySqlClient;
-using System.Data;
+
 using Serpis.Ad;
 
 public partial class MainWindow : Gtk.Window
 {
-    static IDbConnection dbConnection = new MySqlConnection(
-            "server=localhost;database=dbprueba;user=root;password=sistemas;ssl-mode=none"
-            );
-
     public MainWindow() : base(Gtk.WindowType.Toplevel) {
         Build();
 
-        treeView.AppendColumn("id", new CellRendererText(), "text", 0);
-        treeView.AppendColumn("nombre", new CellRendererText(), "text", 1);
-        ListStore listStore = new ListStore(typeof(string), typeof(string));
-        treeView.Model = listStore;
+        App.Instance.DbConnection = new MySqlConnection(
+            "server=localhost;database=dbprueba;user=root;password=sistemas;ssl-mode=none"
+        );
+        App.Instance.DbConnection.Open();
 
-        //Conexion base de datos
-        dbConnection.Open();
 
-        IDbCommand dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText = "select * from articulo order by id";
-        IDataReader dataReader = dbCommand.ExecuteReader();
+        TreeViewHelper.Fill(treeView, new string[] { "Id", "Nombre" }, CategoriaDao.GetAll());
 
-        while (dataReader.Read()) {
-            listStore.AppendValues(dataReader["id"].ToString(), dataReader["nombre"]);
-        }
+        newAction.Activated += (sender, e) => {
+            Categoria categoria = new Categoria();
+            new CategoriaWindow(categoria);
+        };
 
-        dataReader.Close();
-        dbConnection.Close();
-        newAction.Activated += (sender, e) => new CategoriaWindow();
+        editAction.Activated += (sender, e) => {
+            object id = TreeViewHelper.GetId(treeView);
+            Categoria categoria = CategoriaDao.Load(id);
+            new CategoriaWindow(categoria);
+        };
 
-        quitAction.Activated += (sender, e) => Application.Quit();
+        refreshAction.Activated += (sender, e) =>
+            TreeViewHelper.Fill(treeView, new string[] { "Id", "Nombre" }, CategoriaDao.GetAll());
 
+        refreshStateActions();
+        treeView.Selection.Changed += (sender, e) => refreshStateActions();
     }
+
+
 
     protected void OnDeleteEvent(object sender, DeleteEventArgs a) {
         Application.Quit();
         a.RetVal = true;
+    }
+
+    private void refreshStateActions() {
+        bool hasSelectedRows = treeView.Selection.CountSelectedRows() > 0;
+        editAction.Sensitive = hasSelectedRows;
+        deleteAction.Sensitive = hasSelectedRows;
     }
 }
