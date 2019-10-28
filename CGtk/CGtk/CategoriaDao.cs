@@ -59,7 +59,10 @@ namespace CGtk
 
         private static string insertSql = "insert into articulo (nombre) values (@nombre)";
         private static void insert(Categoria categoria) {
-
+            IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand();
+            dbCommand.CommandText = insertSql;
+            DbCommandHelper.AddParameter(dbCommand, "nombre", categoria.Nombre);
+            dbCommand.ExecuteNonQuery();
         }
 
         private static string updateSql = "update articulo set nombre=@nombre where id=@id";
