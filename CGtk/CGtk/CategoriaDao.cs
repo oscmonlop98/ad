@@ -73,7 +73,11 @@ namespace CGtk
 
         private static string deleteSql = "delete from articulo where id=@id";
         public static void Delete(object id) {
-
+            Categoria categoria = new Categoria();
+            IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand();
+            dbCommand.CommandText = deleteSql;
+            DbCommandHelper.AddParameter(dbCommand, "id", id);
+            dbCommand.ExecuteNonQuery();
         }
     }
 }

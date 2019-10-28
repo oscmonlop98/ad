@@ -34,6 +34,11 @@ public partial class MainWindow : Gtk.Window
             new CategoriaWindow(categoria);
         };
 
+        deleteAction.Activated += (sender, e) => {
+            object id = TreeViewHelper.GetId(treeView);
+            CategoriaDao.Delete(id);
+        };
+
         refreshAction.Activated += (sender, e) =>
             TreeViewHelper.Fill(treeView, new string[] { "Id", "Nombre" }, CategoriaDao.GetAll());
 
