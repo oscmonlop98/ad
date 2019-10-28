@@ -11,10 +11,12 @@ import java.time.LocalDateTime;
 public class PruebaMySql {
 
 	private static Connection connection;
+	
 	public static void main(String[] args)throws SQLException {
 		connection = DriverManager.getConnection(
 				"jdbc:mysql://localhost/dbprueba?serverTimezone=UTC", "root", "sistemas"
 		);
+		
 		insert();
 		showAll();
 		
@@ -37,5 +39,6 @@ public class PruebaMySql {
 		preparedStatement.executeUpdate();
 		preparedStatement.close();
 	}
+	
 
 }

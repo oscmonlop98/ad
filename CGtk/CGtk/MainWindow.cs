@@ -26,19 +26,26 @@ public partial class MainWindow : Gtk.Window
         newAction.Activated += (sender, e) => {
             Categoria categoria = new Categoria();
             new CategoriaWindow(categoria);
+
+            TreeViewHelper.Fill(treeView, new string[] { "Id", "Nombre" }, CategoriaDao.GetAll());
+            RefreshStateActions();
         };
 
         editAction.Activated += (sender, e) => {
             object id = TreeViewHelper.GetId(treeView);
             Categoria categoria = CategoriaDao.Load(id);
             new CategoriaWindow(categoria);
+
+            TreeViewHelper.Fill(treeView, new string[] { "Id", "Nombre" }, CategoriaDao.GetAll());
+            RefreshStateActions();
         };
 
         deleteAction.Activated += (sender, e) => {
             object id = TreeViewHelper.GetId(treeView);
             CategoriaDao.Delete(id);
+
             TreeViewHelper.Fill(treeView, new string[] { "Id", "Nombre" }, CategoriaDao.GetAll());
-            refreshStateActions();
+            RefreshStateActions();
         };
 
         quitAction.Activated += (sender, e) => {
@@ -48,8 +55,8 @@ public partial class MainWindow : Gtk.Window
         refreshAction.Activated += (sender, e) =>
             TreeViewHelper.Fill(treeView, new string[] { "Id", "Nombre" }, CategoriaDao.GetAll());
 
-        refreshStateActions();
-        treeView.Selection.Changed += (sender, e) => refreshStateActions();
+        RefreshStateActions();
+        treeView.Selection.Changed += (sender, e) => RefreshStateActions();
     }
 
 
@@ -59,7 +66,7 @@ public partial class MainWindow : Gtk.Window
         a.RetVal = true;
     }
 
-    private void refreshStateActions() {
+    private void RefreshStateActions() {
         bool hasSelectedRows = treeView.Selection.CountSelectedRows() > 0;
         editAction.Sensitive = hasSelectedRows;
         deleteAction.Sensitive = hasSelectedRows;

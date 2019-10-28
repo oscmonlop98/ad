@@ -19,18 +19,6 @@ namespace CGtk
                 //opción 1
                 categorias.Add(new Categoria((ulong)dataReader["id"], (string)dataReader["nombre"]));
 
-                //opción 2
-                //Categoria categoria = new Categoria();
-                //categoria.Id = (ulong)dataReader["id"];
-                //categoria.Nombre = (string)dataReader["nombre"];
-                //categorias.Add(categoria);
-
-                //opción 3
-                //Type type = typeof(Categoria);
-                //Categoria categoria = Activator.CreateInstance<Categoria>();
-                //type.GetProperty("Id").SetValue(categoria, dataReader["id"]);
-                //type.GetProperty("Nombre").SetValue(categoria, dataReader["nombre"]);
-                //categorias.Add(categoria);
             }
             dataReader.Close();
             return categorias;
