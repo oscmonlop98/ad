@@ -329,3 +329,17 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 /.metadata/
+
+# Personal ignores
+/CArticulo
+/CGtk
+/CHolaMundo
+/CMySql
+/CReflection
+/CSerpisAd
+/CSerpisAdConsole
+/GHibernate2
+/GHibernateProject2
+/GHibernatePruebas
+/GMySql
+/mysqldata
