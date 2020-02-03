@@ -9,6 +9,7 @@
             persistence-unit para el proyecto GPedido
         </description>
         <class>models.Cliente</class>
+        <class>models.Pelicula</class>
 
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/dbprueba" />
