@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import dao.ClienteDAO;
-import view.initialWindow;
+import view.pedidoWindow;
 
 public class Login {
 	
@@ -121,7 +121,14 @@ public class Login {
 		username = entryLogin.getText();
 		password = entryPassword.getText();
 		
-		ClienteDAO.InsertarCliente(username, password);
+//		ClienteDAO.InsertarCliente(username, password);
+		ClienteDAO.getUser(username, password);
+		
+		if (true) {
+			// Mostrar el nombre del cliente en un label, almacenar sus datos para los pedidos.
+		} else {
+			// Mostrar un mensaje de alerta para que se vuelva a iniciar sesión.
+		}
 		
 		System.out.println(username + " " + password);
 	}

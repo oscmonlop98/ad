@@ -23,7 +23,7 @@ public class administrationWindow extends JFrame {
 				
 		// Frame configuration
         frame = new JFrame();
-        frame.setTitle("Videoclub - Administración");
+        frame.setTitle("Videoclub - Administracion");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		Toolkit myScreen = Toolkit.getDefaultToolkit();
@@ -51,7 +51,7 @@ public class administrationWindow extends JFrame {
         buttonPedidos = new JButton("Realizar pedidos");
         buttonPedidos.addActionListener(new ActionListener () {
         	public void actionPerformed (ActionEvent e) {
-        		initialWindow myWindow = new initialWindow();
+        		pedidoWindow myWindow = new pedidoWindow();
         	}
         });
         

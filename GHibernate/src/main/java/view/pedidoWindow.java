@@ -27,7 +27,7 @@ import dao.PedidoDAO;
 import model.Cliente;
 
 
-public class initialWindow extends JFrame {
+public class pedidoWindow extends JFrame {
 	
 	private static JFrame frame;
 	private static JPanel container;
@@ -41,7 +41,7 @@ public class initialWindow extends JFrame {
 	private static JButton buttonCheckout;
 	
 	
-	public initialWindow() {
+	public pedidoWindow() {
 		
 		// Frame configuration
         frame = new JFrame();
@@ -117,6 +117,11 @@ public class initialWindow extends JFrame {
         	}
         });
         buttonCheckout = new JButton("Checkout");
+        buttonCheckout.addActionListener(new ActionListener() {
+        	public void actionPerformed (ActionEvent e) {
+        		//Iniciar la ventana de pedidos.
+        	}
+        });
         
         controlPanel.add(BorderLayout.NORTH, buttonLogin);
         controlPanel.add(BorderLayout.NORTH, buttonCart);

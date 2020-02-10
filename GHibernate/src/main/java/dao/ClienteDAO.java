@@ -61,6 +61,11 @@ public class ClienteDAO {
 		}
 					
 	}
+	
+	public static void getUser(String name, String password) {
+		Cliente user = UnidadPersistencia.getInstance().getEntityManager().createQuery(
+				"SELECT nombre FROM Cliente c WHERE c.nombre LIKE :" + name, Cliente.class);
+	}
 
 }
 

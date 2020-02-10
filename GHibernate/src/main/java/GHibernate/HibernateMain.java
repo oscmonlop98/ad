@@ -9,7 +9,7 @@ import dao.ClienteDAO;
 import dao.PeliculaDAO;
 import model.Cliente;
 import view.administrationWindow;
-import view.initialWindow;
+import view.pedidoWindow;
 
 public class HibernateMain {
 
