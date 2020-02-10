@@ -1,7 +1,10 @@
 package dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+
+import javax.swing.table.DefaultTableModel;
 
 import controller.UnidadPersistencia;
 import model.Cliente;
@@ -20,6 +23,43 @@ public class ClienteDAO {
 		
 		UnidadPersistencia.getInstance().getEntityManager().getTransaction().commit();
 
+	}
+	
+//	public static void devolverCliente () {
+//		
+//		UnidadPersistencia.getInstance().getEntityManager().getTransaction().begin();
+//		
+//		UnidadPersistencia.getInstance().getEntityManager().createQuery("from Cliente order by Id", Cliente.class);
+//		
+//		UnidadPersistencia.getInstance().getEntityManager().getTransaction().commit();
+//	}
+	
+	public static List<Cliente> getClientes() {
+		List<Cliente> clientes = UnidadPersistencia.getInstance().getEntityManager().createQuery("from Cliente order by Id", Cliente.class).getResultList();
+		return clientes;
+	}
+	
+	public static void show() {
+		
+		DefaultTableModel model = new DefaultTableModel();
+		String[] arrayClientes;
+
+		List<Cliente> clientes = UnidadPersistencia.getInstance().getEntityManager().createQuery("from Cliente order by Id", Cliente.class).getResultList();
+		
+		for (Cliente cliente : clientes) {
+			String[] datosCliente = new String[] {
+					cliente.getId().toString(), cliente.getNombre()
+			};
+			model.addRow(datosCliente);
+			
+//			String id ="";
+//			String nombre="";
+//			id = cliente.getId().toString();
+//			nombre = cliente.getNombre();
+//			String stringcliente = id + " " + nombre;
+//			System.out.println(stringcliente);
+		}
+					
 	}
 
 }

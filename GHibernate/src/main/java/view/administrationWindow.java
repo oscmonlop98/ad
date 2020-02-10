@@ -41,8 +41,8 @@ public class administrationWindow extends JFrame {
         buttonClients = new JButton("Administrar clientes");
         buttonClients.addActionListener(new ActionListener () {
         	public void actionPerformed (ActionEvent e) {
-        		TableButton3 admin = new TableButton3();
-        		frame.setDefaultCloseOperation( EXIT_ON_CLOSE );
+        		adminClient admin = new adminClient();
+        		admin.setDefaultCloseOperation( EXIT_ON_CLOSE );
         		admin.pack();
         		admin.setVisible(true);
         	}

@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -21,7 +22,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import dao.ClienteDAO;
 import dao.PedidoDAO;
+import model.Cliente;
 
 
 public class initialWindow extends JFrame {
@@ -61,7 +64,7 @@ public class initialWindow extends JFrame {
         container.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
         // Elements container
-        titleLabel = new JLabel("ALQUILER DE PEL�CULAS");
+        titleLabel = new JLabel("ALQUILER DE PELICULAS");
         titleLabel.setFont(new Font("Courier New", Font.BOLD, 26));
         container.add(BorderLayout.BEFORE_FIRST_LINE, titleLabel);
         
@@ -70,27 +73,26 @@ public class initialWindow extends JFrame {
         viewPanel.setPreferredSize(new Dimension(700, 100));
         viewPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        String[] columnNames = {"Date", "String", "Integer", "Decimal", ""};
-        Object[][] data =
-        {
-            {new Date(), "A", new Integer(1), new Double(5.1), "A"},
-            {new Date(), "B", new Integer(2), new Double(6.2), "Delete1"},
-            {new Date(), "C", new Integer(3), new Double(7.3), "Delete2"},
-            {new Date(), "D", new Integer(4), new Double(8.4), "Delete3"}
-        };
-
-        DefaultTableModel model = new DefaultTableModel(data, columnNames);
-        JTable table = new JTable( model )
-        {
-            //  Returning the Class of each column will allow different
-            //  renderers to be used based on Class
-            public Class getColumnClass(int column)
-            {
-                return getValueAt(0, column).getClass();
-            }
-        };
+        DefaultTableModel model = new DefaultTableModel();
         
-        viewPanel.add(table);
+        JTable table = new JTable(model);
+        model.addColumn("Id");
+        model.addColumn("Nombre");
+        
+        String[] arrayClientes;
+        List <Cliente> clientes = ClienteDAO.getClientes();
+		
+		for (Cliente cliente : clientes) {
+			String[] datosCliente = new String[] {
+					cliente.getId().toString(), cliente.getNombre()
+			};
+			model.addRow(datosCliente);
+		}
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        viewPanel.add( scrollPane );
+        
+        
 
         container.add(BorderLayout.WEST, viewPanel);
         
