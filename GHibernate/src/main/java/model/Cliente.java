@@ -49,7 +49,7 @@ public class Cliente {
 	public String getContrasenya() {
 		return contrasenya;
 	}
-	public void setContrasenya() {
+	public void setContrasenya(String contrasenya) {
 		this.contrasenya = contrasenya;
 	}
 	

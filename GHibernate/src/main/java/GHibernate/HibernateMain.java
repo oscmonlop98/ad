@@ -6,25 +6,43 @@ import java.util.Scanner;
 
 import controller.UnidadPersistencia;
 import dao.ClienteDAO;
+import dao.PeliculaDAO;
 import model.Cliente;
+import view.administrationWindow;
+import view.initialWindow;
 
 public class HibernateMain {
 
 	public static void main(String[] args) {
-		String nombre = "";
-		Scanner tcl = new Scanner(System.in);
+
+		administrationWindow window = new administrationWindow();
 		
-		System.out.println("Introduce el nombre del cliente: ");
-		nombre = tcl.nextLine();
+//		PeliculaDAO.InsertarPelicula();
+		
+
+//		String nombre = "";
+//		Scanner tcl = new Scanner(System.in);
+//		
+//		System.out.println("Introduce el nombre del cliente: ");
+//		nombre = tcl.nextLine();
+//		
+//		Cliente cliente = new Cliente();
+//		cliente.setNombre(nombre);
+//		
+//		UnidadPersistencia.getInstance().getEntityManager().getTransaction().begin();
+//		
+//		UnidadPersistencia.getInstance().getEntityManager().persist(cliente);
+//		
+//		UnidadPersistencia.getInstance().getEntityManager().getTransaction().commit();
 		
 //		guardarClientes(nombre);
 //		mostrarClientes();
-		List<Cliente> clientes = getAll();
-
-		for (Cliente cliente : clientes) {
-			System.out.println(cliente.getNombre());
-		}
-		
+//		List<Cliente> clientes = getAll();
+//
+//		for (Cliente cliente : clientes) {
+//			System.out.println(cliente.getNombre());
+//		}
+//		
 
 
 	}

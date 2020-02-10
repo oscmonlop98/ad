@@ -1,5 +1,7 @@
 package model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,8 +18,9 @@ public class Pelicula {
 	private Long id;
 	private String titulo;
 	private int duracion;
-	private Director director;
-	private Genero genero;
+	private String director;
+	private String genero;
+	private BigDecimal precio = BigDecimal.ZERO;
 	
 	public Pelicula() {
 	
@@ -47,19 +50,27 @@ public class Pelicula {
 		this.duracion = duracion;
 	}
 
-	public Director getDirector() {
+	public String getDirector() {
 		return director;
 	}
 
-	public void setDirector(Director director) {
+	public void setDirector(String director) {
 		this.director = director;
 	}
 	
-	public Genero getGenero() {
+	public String getGenero() {
 		return genero;
 	}
-	public void setGenero(Genero genero) {
+	public void setGenero(String genero) {
 		this.genero = genero;
+	}
+
+	public BigDecimal getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(BigDecimal precio) {
+		this.precio = precio;
 	}
 	
 	

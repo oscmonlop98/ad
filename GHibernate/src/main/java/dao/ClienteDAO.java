@@ -1,15 +1,26 @@
 package dao;
 
 import java.util.List;
+import java.util.Scanner;
 
 import controller.UnidadPersistencia;
 import model.Cliente;
 
 public class ClienteDAO {
 	
-	public List<Cliente> getAll(){
-        return UnidadPersistencia.getInstance().getEntityManager().createQuery("from Cliente order by nombre", Cliente.class).getResultList();
-    }
+	public static void InsertarCliente (String nombre, String password){
+		
+		Cliente cliente = new Cliente ();
+		cliente.setNombre(nombre);
+		cliente.setContrasenya(password);
+		
+		UnidadPersistencia.getInstance().getEntityManager().getTransaction().begin();
+		
+		UnidadPersistencia.getInstance().getEntityManager().persist(cliente);
+		
+		UnidadPersistencia.getInstance().getEntityManager().getTransaction().commit();
+
+	}
 
 }
 

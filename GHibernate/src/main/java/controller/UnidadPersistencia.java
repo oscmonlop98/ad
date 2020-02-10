@@ -22,5 +22,9 @@ public class UnidadPersistencia {
 	public EntityManager getEntityManager() {
 		return entityManager;
 	}
+	
+	public EntityManagerFactory getEntityManagerFactory() {
+		return entityManagerFactory;
+	}
 
 }

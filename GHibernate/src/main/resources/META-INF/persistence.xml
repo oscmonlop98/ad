@@ -9,7 +9,7 @@
             persistence-unit para el proyecto GPedido
         </description>
         <class>models.Cliente</class>
-        <class>models.Pelicula</class>
+<!--         <class>models.Pelicula</class> -->
 
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/dbprueba" />
@@ -17,7 +17,7 @@
             <property name="javax.persistence.jdbc.password" value="sistemas" />
 
             <property name="hibernate.show_sql" value="true" />
-            <!-- property name="hibernate.hbm2ddl.auto" value="create" /-->
+<!--             <property name="hibernate.hbm2ddl.auto" value="create" /> -->
         </properties>
 
     </persistence-unit>
