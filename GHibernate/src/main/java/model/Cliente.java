@@ -30,6 +30,12 @@ public class Cliente {
 		this.id = id;
 	}
 	
+	@Override
+	public String toString() {
+		return "Cliente [id=" + id + ", nombre=" + nombre + ", usuario=" + usuario + ", contrasenya=" + contrasenya
+				+ "]";
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -37,14 +43,14 @@ public class Cliente {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	public String getUsuario() {
-		return usuario;
-	}
-	
-	public void setUsuario() {
-		this.usuario = usuario;
-	}
+//	
+//	public String getUsuario() {
+//		return usuario;
+//	}
+//	
+//	public void setUsuario() {
+//		this.usuario = usuario;
+//	}
 	
 	public String getContrasenya() {
 		return contrasenya;

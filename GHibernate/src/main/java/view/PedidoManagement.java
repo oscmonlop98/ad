@@ -1,8 +1,8 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -12,24 +12,24 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import controller.UnidadPersistencia;
 import dao.ClienteDAO;
 import model.Cliente;
 
-public class adminClient extends JFrame {
-
+public class PedidoManagement extends JFrame{
 	private static JFrame frame;
-	private static JButton buttonAdd;
+	private static JButton buttonDelete;
 	private static JPanel panelView;
-
-	public adminClient() {
-		
+	private static JPanel container;
+	
+	public PedidoManagement () {
 		frame = new JFrame();
-		frame.getContentPane();
+		panelView = new JPanel();
+		container = new JPanel();
+//        panelView.setPreferredSize(new Dimension(700, 100));
+//        panelView.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		DefaultTableModel model = new DefaultTableModel();
 
-//        JTable table = new JTable(model);
 		model.addColumn("Id");
 		model.addColumn("Nombre");
 		model.addColumn("Seleccionar");
@@ -47,10 +47,6 @@ public class adminClient extends JFrame {
 
 			private static final long serialVersionUID = 1L;
 
-			/*
-			 * @Override public Class getColumnClass(int column) { return getValueAt(0,
-			 * column).getClass(); }
-			 */
 			@Override
 			public Class getColumnClass(int column) {
 				switch (column) {
@@ -65,15 +61,19 @@ public class adminClient extends JFrame {
 		};
 
 		JScrollPane scrollPane = new JScrollPane(table);
-		getContentPane().add(scrollPane);
-		
-        buttonAdd = new JButton("Añadir clientes");
-        buttonAdd.addActionListener(new ActionListener () {
+		panelView.add(scrollPane);
+        
+        buttonDelete = new JButton("Eliminar pedido");
+        buttonDelete.addActionListener(new ActionListener () {
         	public void actionPerformed (ActionEvent e) {
-        		addForm a = new addForm();
-        		a.setVisible(true);
+        		//Eliminar usuarios seleccionados
         	}
         });
+        
+        container.add(panelView);
+        container.add(buttonDelete);
+        
+        add(BorderLayout.CENTER, container);
 
 	}
 

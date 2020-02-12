@@ -13,10 +13,11 @@ import java.net.UnknownHostException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import dao.ClienteDAO;
-import view.pedidoWindow;
+import view.PedidoWindow;
 
 public class Login {
 	
@@ -25,7 +26,7 @@ public class Login {
 	private static JTextField entryLogin;
 	private static JButton buttonLogin;
 	private static JLabel labelPassword;
-	private static JTextField entryPassword;
+	private static JPasswordField entryPassword;
 	
 	public void initComponents() {
 		
@@ -83,7 +84,7 @@ public class Login {
 		c.insets = new Insets(50,50,0,50);
 		pane.add(labelPassword, c);
 
-		entryPassword = new JTextField();
+		entryPassword = new JPasswordField();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0;
 		c.gridwidth = 3;
@@ -121,16 +122,14 @@ public class Login {
 		username = entryLogin.getText();
 		password = entryPassword.getText();
 		
-//		ClienteDAO.InsertarCliente(username, password);
-		ClienteDAO.getUser(username, password);
-		
-		if (true) {
-			// Mostrar el nombre del cliente en un label, almacenar sus datos para los pedidos.
+		if (ClienteDAO.getUser(username, password)) {
+			System.out.println(username + " " + password);
+			System.out.println("TODO OK");
 		} else {
-			// Mostrar un mensaje de alerta para que se vuelva a iniciar sesión.
+			System.out.println("MAL");
+			System.out.println(username + " " + password);
 		}
 		
-		System.out.println(username + " " + password);
 	}
 
 }

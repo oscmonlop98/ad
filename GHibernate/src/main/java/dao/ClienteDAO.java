@@ -11,7 +11,7 @@ import model.Cliente;
 
 public class ClienteDAO {
 	
-	public static void InsertarCliente (String nombre, String password){
+	public static void insertarCliente (String nombre, String password){
 		
 		Cliente cliente = new Cliente ();
 		cliente.setNombre(nombre);
@@ -25,66 +25,48 @@ public class ClienteDAO {
 
 	}
 	
-//	public static void devolverCliente () {
-//		
-//		UnidadPersistencia.getInstance().getEntityManager().getTransaction().begin();
-//		
-//		UnidadPersistencia.getInstance().getEntityManager().createQuery("from Cliente order by Id", Cliente.class);
-//		
-//		UnidadPersistencia.getInstance().getEntityManager().getTransaction().commit();
-//	}
-	
 	public static List<Cliente> getClientes() {
 		List<Cliente> clientes = UnidadPersistencia.getInstance().getEntityManager().createQuery("from Cliente order by Id", Cliente.class).getResultList();
 		return clientes;
 	}
 	
-	public static void show() {
+//	public static void show() {
+//		
+//		DefaultTableModel model = new DefaultTableModel();
+//		String[] arrayClientes;
+//
+//		List<Cliente> clientes = UnidadPersistencia.getInstance().getEntityManager().createQuery("from Cliente order by Id", Cliente.class).getResultList();
+//		
+//		for (Cliente cliente : clientes) {
+//			String[] datosCliente = new String[] {
+//					cliente.getId().toString(), cliente.getNombre()
+//			};
+//			model.addRow(datosCliente);
+//			
+//		}
+//					
+//	}
+	
+	public static void eliminarCliente (Cliente cliente){
 		
-		DefaultTableModel model = new DefaultTableModel();
-		String[] arrayClientes;
+		UnidadPersistencia.getInstance().getEntityManager().getTransaction().begin();
+		
+		UnidadPersistencia.getInstance().getEntityManager().remove(cliente);
+		
+		UnidadPersistencia.getInstance().getEntityManager().getTransaction().commit();
+		System.out.println("ELIMINADO");
 
-		List<Cliente> clientes = UnidadPersistencia.getInstance().getEntityManager().createQuery("from Cliente order by Id", Cliente.class).getResultList();
-		
-		for (Cliente cliente : clientes) {
-			String[] datosCliente = new String[] {
-					cliente.getId().toString(), cliente.getNombre()
-			};
-			model.addRow(datosCliente);
-			
-//			String id ="";
-//			String nombre="";
-//			id = cliente.getId().toString();
-//			nombre = cliente.getNombre();
-//			String stringcliente = id + " " + nombre;
-//			System.out.println(stringcliente);
-		}
-					
 	}
 	
-	public static void getUser(String name, String password) {
-		//Cliente user = UnidadPersistencia.getInstance().getEntityManager().createQuery("SELECT nombre FROM Cliente c WHERE c.nombre LIKE :" + name, Cliente.class);
+	public static boolean getUser(String name, String password) {
+		boolean resultado = false;
+		System.out.println("Estoy en el DAO " + name + " " + password);
+		List<Cliente> clientes = UnidadPersistencia.getInstance().getEntityManager().createQuery(
+				"from Cliente where nombre='" + name + "' AND contrasenya='" + password + "'" , Cliente.class).getResultList();
+		if(clientes.size() == 1)
+			resultado = true;
+			
+		return resultado;
 	}
 
 }
-
-/*
- * import controller.EntityManagerHelper;
-import model.Article;
-import model.Client;
-
-import java.util.List;
-
-public class ClientDAO extends PersistenceDAO<Client> {
-
-    @Override
-    public List<Client> getAll() {
-        return EntityManagerHelper.getInstance().getEntityManager().createQuery("from Client order by Id", Client.class).getResultList();
-    }
-
-    @Override
-    public Client findById(long id) {
-        return EntityManagerHelper.getInstance().getEntityManager().find(Client.class, id);
-    }
-}
- */

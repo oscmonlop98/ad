@@ -8,14 +8,16 @@ import controller.UnidadPersistencia;
 import dao.ClienteDAO;
 import dao.PeliculaDAO;
 import model.Cliente;
-import view.administrationWindow;
-import view.pedidoWindow;
+import view.AdministrationWindow;
+import view.PedidoWindow;
 
 public class HibernateMain {
+	
+	
 
 	public static void main(String[] args) {
 
-		administrationWindow window = new administrationWindow();
+		AdministrationWindow window = new AdministrationWindow();
 		
 //		PeliculaDAO.InsertarPelicula();
 		

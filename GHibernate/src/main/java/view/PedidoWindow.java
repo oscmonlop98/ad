@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,14 +21,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import dao.ClienteDAO;
 import dao.PedidoDAO;
+import dao.PeliculaDAO;
 import model.Cliente;
+import model.Pelicula;
 
 
-public class pedidoWindow extends JFrame {
+public class PedidoWindow extends JFrame {
 	
 	private static JFrame frame;
 	private static JPanel container;
@@ -38,10 +44,13 @@ public class pedidoWindow extends JFrame {
 	private static JButton buttonLogin;
 	private static JButton buttonCart;
 	private static JButton buttonAdd;
-	private static JButton buttonCheckout;
+	private static JButton buttonManagement;
+	private static JTable table;
+	private static List<Pelicula> peliculas;
+	private static ArrayList<String> titulos; 
 	
 	
-	public pedidoWindow() {
+	public PedidoWindow() {
 		
 		// Frame configuration
         frame = new JFrame();
@@ -73,23 +82,52 @@ public class pedidoWindow extends JFrame {
         viewPanel.setPreferredSize(new Dimension(700, 100));
         viewPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        DefaultTableModel model = new DefaultTableModel();
-        
-        JTable table = new JTable(model);
-        model.addColumn("Id");
-        model.addColumn("Nombre");
-        
-        String[] arrayClientes;
-        List <Cliente> clientes = ClienteDAO.getClientes();
-		
-		for (Cliente cliente : clientes) {
-			String[] datosCliente = new String[] {
-					cliente.getId().toString(), cliente.getNombre()
-			};
-			model.addRow(datosCliente);
-		}
+		DefaultTableModel model = new DefaultTableModel();
 
-        JScrollPane scrollPane = new JScrollPane(table);
+		model.addColumn("Id");
+		model.addColumn("Titulo");
+		model.addColumn("Precio");
+		model.addColumn("Duracion");
+		model.addColumn("Director");
+		model.addColumn("Genero");
+		model.addColumn("Seleccionar");
+
+		titulos = new ArrayList<String>();
+		peliculas = PeliculaDAO.getPeliculas();
+
+		for (Pelicula pelicula : peliculas) {
+			String[] datosPelicula = new String[] { pelicula.getId().toString(), pelicula.getTitulo() };
+
+			Object[] data = new Object[] { pelicula.getId().toString(), pelicula.getTitulo(), pelicula.getPrecio().toString(),
+					pelicula.getDuracion(), pelicula.getDirector(), pelicula.getGenero(), false };
+			model.addRow(data);
+		}
+		table = new JTable(model) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Class getColumnClass(int column) {
+				switch (column) {
+				case 0:
+					return String.class;
+				case 1:
+					return String.class;
+				case 2:
+					return String.class;
+				case 3:
+					return String.class;
+				case 4:
+					return String.class;
+				case 5:
+					return String.class;
+				default:
+					return Boolean.class;
+				}
+			}
+		};
+		
+		JScrollPane scrollPane = new JScrollPane(table);
         viewPanel.add( scrollPane );
         
         
@@ -109,24 +147,47 @@ public class pedidoWindow extends JFrame {
         		
 			}
         });
+        
         buttonCart = new JButton("Cart");
+        buttonCart.addActionListener(new ActionListener () {
+        	public void actionPerformed (ActionEvent e) {
+        		CartView cart = new CartView();
+        		cart.setDefaultCloseOperation( EXIT_ON_CLOSE );
+        		cart.pack();
+        		cart.setVisible(true);
+        	}
+        });
+        
         buttonAdd = new JButton("Add to Cart");
         buttonAdd.addActionListener(new ActionListener () {
         	public void actionPerformed (ActionEvent e) {
-        		addToCart();
+        		addToCart(table);
+        		List<Pelicula> peliculasSeleccionadas = new ArrayList<Pelicula>();
+        		for (String titulo : titulos) {
+        			for (Pelicula pelicula : peliculas) {
+        				String datosPelicula = pelicula.getTitulo();
+        				if(datosPelicula == titulo) {
+        					peliculasSeleccionadas.add(pelicula);
+        				}
+        			}
+        		}  
         	}
         });
-        buttonCheckout = new JButton("Checkout");
-        buttonCheckout.addActionListener(new ActionListener() {
+        
+        buttonManagement = new JButton("Gestion de pedidos");
+        buttonManagement.addActionListener(new ActionListener() {
         	public void actionPerformed (ActionEvent e) {
-        		//Iniciar la ventana de pedidos.
+        		PedidoManagement gestion = new PedidoManagement();
+        		gestion.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        		gestion.pack();
+        		gestion.setVisible(true);
         	}
         });
         
         controlPanel.add(BorderLayout.NORTH, buttonLogin);
         controlPanel.add(BorderLayout.NORTH, buttonCart);
         controlPanel.add(BorderLayout.SOUTH, buttonAdd);
-        controlPanel.add(BorderLayout.SOUTH, buttonCheckout);
+        controlPanel.add(BorderLayout.SOUTH, buttonManagement);
         container.add(BorderLayout.EAST, controlPanel);
         
         frame.getContentPane().add(BorderLayout.CENTER, container);
@@ -140,9 +201,15 @@ public class pedidoWindow extends JFrame {
 		container.add(BorderLayout.WEST, userLabel);
 	}
 	
-	public static void addToCart() {
+	public static void addToCart(JTable tabla) {
 		
-		PedidoDAO.InsertarPedido();
+		TableModel model = tabla.getModel();
+		
+	    for (int i = 0; i <= model.getRowCount() - 1; i++) {    
+	        if ((Boolean) model.getValueAt(i, 6)) {
+	           titulos.add(model.getValueAt(i, 1).toString());
+	        }
+	    }
 		
 	}
 	

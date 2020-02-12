@@ -9,9 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import GHibernate.TableButton3;
 
-public class administrationWindow extends JFrame {
+public class AdministrationWindow extends JFrame {
 	
 	private static JFrame frame;
 	private static JButton buttonClients;
@@ -19,7 +18,7 @@ public class administrationWindow extends JFrame {
 	private static JButton buttonFilms;
 	private static JPanel controlPanel;
 	
-	public administrationWindow() {
+	public AdministrationWindow() {
 				
 		// Frame configuration
         frame = new JFrame();
@@ -41,25 +40,25 @@ public class administrationWindow extends JFrame {
         buttonClients = new JButton("Administrar clientes");
         buttonClients.addActionListener(new ActionListener () {
         	public void actionPerformed (ActionEvent e) {
-        		adminClient admin = new adminClient();
-        		admin.setDefaultCloseOperation( EXIT_ON_CLOSE );
-        		admin.pack();
-        		admin.setVisible(true);
+        		ManageClient manageClient = new ManageClient();
+        		manageClient.setDefaultCloseOperation( EXIT_ON_CLOSE );
+        		manageClient.pack();
+        		manageClient.setVisible(true);
         	}
         });
         
         buttonPedidos = new JButton("Realizar pedidos");
         buttonPedidos.addActionListener(new ActionListener () {
         	public void actionPerformed (ActionEvent e) {
-        		pedidoWindow myWindow = new pedidoWindow();
+        		PedidoWindow myWindow = new PedidoWindow();
         	}
         });
         
         buttonFilms = new JButton("Administrar películas");
         buttonFilms.addActionListener(new ActionListener () {
         	public void actionPerformed (ActionEvent e) {
-        		TableButton3 admin = new TableButton3();
-        		frame.setDefaultCloseOperation( EXIT_ON_CLOSE );
+        		ManageFilm admin = new ManageFilm();
+        		admin.setDefaultCloseOperation( EXIT_ON_CLOSE );
         		admin.pack();
         		admin.setVisible(true);
         	}
