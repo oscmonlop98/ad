@@ -35,14 +35,14 @@ public class PedidoManagement extends JFrame{
 		model.addColumn("Seleccionar");
 
 		String[] arrayClientes;
-		List<Cliente> clientes = ClienteDAO.getClientes();
-
-		for (Cliente cliente : clientes) {
-			String[] datosCliente = new String[] { cliente.getId().toString(), cliente.getNombre() };
-
-			Object[] data = new Object[] { cliente.getId().toString(), cliente.getNombre(), false };
-			model.addRow(data);
-		}
+//		List<Cliente> clientes = ClienteDAO.getClientes();
+//
+//		for (Cliente cliente : clientes) {
+//			String[] datosCliente = new String[] { cliente.getId().toString(), cliente.getNombre() };
+//
+//			Object[] data = new Object[] { cliente.getId().toString(), cliente.getNombre(), false };
+//			model.addRow(data);
+//		}
 		JTable table = new JTable(model) {
 
 			private static final long serialVersionUID = 1L;
@@ -70,10 +70,10 @@ public class PedidoManagement extends JFrame{
         	}
         });
         
-        container.add(panelView);
         container.add(buttonDelete);
         
-        add(BorderLayout.CENTER, container);
+        add(BorderLayout.SOUTH, container);
+        add(BorderLayout.NORTH, panelView);
 
 	}
 

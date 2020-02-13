@@ -48,15 +48,15 @@ public class ManageClient extends JFrame {
 
 		nombres = new ArrayList<String>();
 		
-		clientes = ClienteDAO.getClientes();
-
-		for (Cliente cliente : clientes) {
-			
-			String[] datosCliente = new String[] { cliente.getId().toString(), cliente.getNombre() };
-
-			Object[] data = new Object[] { cliente.getId().toString(), cliente.getNombre(), false };
-			model.addRow(data);
-		}
+//		clientes = ClienteDAO.getClientes();
+//
+//		for (Cliente cliente : clientes) {
+//			
+//			String[] datosCliente = new String[] { cliente.getId().toString(), cliente.getNombre() };
+//
+//			Object[] data = new Object[] { cliente.getId().toString(), cliente.getNombre(), false };
+//			model.addRow(data);
+//		}
 		
 		table = new JTable(model) {
 
@@ -102,11 +102,13 @@ public class ManageClient extends JFrame {
         	}
         });
         
-        container.add(panelView);
-        container.add(buttonAdd);
-        container.add(buttonDelete);
+        container.add(BorderLayout.NORTH, buttonAdd);
+        container.add(BorderLayout.SOUTH,buttonDelete);
         
-        add(BorderLayout.CENTER, container);
+        add(BorderLayout.SOUTH, container);
+        add(BorderLayout.NORTH, panelView);
+        setResizable(false);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}
 	

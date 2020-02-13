@@ -1,9 +1,12 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,15 +28,16 @@ public class AddFormClient extends JFrame{
 	
 	public AddFormClient() {
 		
-		setSize(500,500);
+		setSize(300,200);
 		setTitle("Formulario añadir cliente");
-		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
 		
 		panelView = new JPanel();
 		
-		userName = new JLabel("Introduce nombre del cliente:");
+		userName = new JLabel("Nombre del cliente:");
+		userName.setBorder(BorderFactory.createEmptyBorder(20,0,20,0));
 		userField = new JTextField();
-		userField.setPreferredSize(new Dimension(90,20));
+		userField.setPreferredSize(new Dimension(120,20));
 		password = new JLabel("Introduce contraseña:");
 		passwordField = new JPasswordField(10);
 		
@@ -48,11 +52,11 @@ public class AddFormClient extends JFrame{
 			}
 		});
 		
-		panelView.add(userName);
-		panelView.add(userField);
-		panelView.add(password);
-		panelView.add(passwordField);
-		panelView.add(buttonAdd);
+		panelView.add(BorderLayout.LINE_START, userName);
+		panelView.add(BorderLayout.LINE_END, userField);
+		panelView.add(BorderLayout.LINE_START, password);
+		panelView.add(BorderLayout.LINE_END, passwordField);
+		panelView.add(BorderLayout.SOUTH, buttonAdd);
 		
 		add(panelView);
 		setVisible(true);	

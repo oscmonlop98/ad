@@ -3,6 +3,8 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -13,7 +15,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import dao.ClienteDAO;
+import dao.PedidoDAO;
 import model.Cliente;
+import model.Pedido;
+import model.PedidoLinea;
+import model.Pelicula;
 
 public class CartView extends JFrame{
 	
@@ -21,8 +27,9 @@ public class CartView extends JFrame{
 	private static JButton buttonAdd;
 	private static JPanel panelView;
 	private static JPanel container;
+	private static JTable table;
 	
-	public CartView () {
+	public CartView (ArrayList<Pelicula> peliculasSeleccionadas) {
 		frame = new JFrame();
 		panelView = new JPanel();
 		container = new JPanel();
@@ -38,16 +45,15 @@ public class CartView extends JFrame{
 		model.addColumn("Director");
 		model.addColumn("Genero");
 
-		String[] arrayClientes;
-		List<Cliente> clientes = ClienteDAO.getClientes();
-
-		for (Cliente cliente : clientes) {
-			String[] datosCliente = new String[] { cliente.getId().toString(), cliente.getNombre() };
-
-			Object[] data = new Object[] { cliente.getId().toString(), cliente.getNombre(), false };
-			model.addRow(data);
-		}
-		JTable table = new JTable(model) {
+//		for (Pelicula pelicula : peliculasSeleccionadas) {
+////			String[] datosPelicula = new String[] { pelicula.getId().toString(), pelicula.getTitulo(), pelicula.getPrecio().toString(),
+////					pelicula.getDuracion(), pelicula.getDirector(), pelicula.getGenero(), peli };
+//
+//			Object[] data = new Object[] { pelicula.getId().toString(), pelicula.getTitulo(), pelicula.getPrecio().toString(),
+//					pelicula.getDuracion(), pelicula.getDirector(), pelicula.getGenero(), false };
+//			model.addRow(data);
+//		}
+		table = new JTable(model) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -57,6 +63,14 @@ public class CartView extends JFrame{
 				case 0:
 					return String.class;
 				case 1:
+					return String.class;
+				case 2:
+					return String.class;
+				case 3:
+					return String.class;
+				case 4:
+					return String.class;
+				case 5:
 					return String.class;
 				default:
 					return Boolean.class;
@@ -70,17 +84,44 @@ public class CartView extends JFrame{
         buttonAdd = new JButton("Checkout");
         buttonAdd.addActionListener(new ActionListener () {
         	public void actionPerformed (ActionEvent e) {
-        		AddFormClient a = new AddFormClient();
-        		a.setVisible(true);
+        		realizarPedido(peliculasSeleccionadas);
         	}
         });
         
         
-        container.add(panelView);
+//        container.add(panelView);
         container.add(buttonAdd);
         
-        add(BorderLayout.CENTER, container);
+        add(BorderLayout.SOUTH, container);
+        add(BorderLayout.NORTH, panelView);
 
+	}
+	
+	public static void realizarPedido(ArrayList<Pelicula> peliculasSeleccionadas) {
+		//Ficticio, pasar el cliente logueado
+		Cliente cliente = new Cliente();
+		
+		Pedido pedido = new Pedido(cliente);
+		
+		List<PedidoLinea> lineas = new ArrayList<PedidoLinea>();
+		
+		for (Pelicula pelicula: peliculasSeleccionadas) {
+			
+			for (PedidoLinea linea: lineas) {
+				if (linea.getPelicula().getId() == pelicula.getId()) {
+					BigDecimal unidades = linea.getUnidades();
+					unidades = unidades.add(new BigDecimal(1));
+					linea.setUnidades(unidades);
+				}
+			}
+			
+			PedidoLinea nuevaLinea = new PedidoLinea(pedido);
+			nuevaLinea.setArticulo(pelicula);
+			nuevaLinea.setUnidades(new BigDecimal(1));
+			lineas.add(nuevaLinea);
+		}
+		
+		PedidoDAO.InsertarPedido();
 	}
 
 }

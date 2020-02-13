@@ -18,9 +18,13 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -48,14 +52,17 @@ public class PedidoWindow extends JFrame {
 	private static JTable table;
 	private static List<Pelicula> peliculas;
 	private static ArrayList<String> titulos; 
+	private static ArrayList<Pelicula> peliculasSeleccionadas;
+	private static JPanel panelTitulo;
+	private static JLabel labelUser;
 	
 	
-	public PedidoWindow() {
+	public PedidoWindow(boolean userLogued, String user) {
 		
 		// Frame configuration
         frame = new JFrame();
         frame.setTitle("Videoclub");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		Toolkit myScreen = Toolkit.getDefaultToolkit();
 		Dimension screenSize = myScreen.getScreenSize();
@@ -73,14 +80,15 @@ public class PedidoWindow extends JFrame {
         container.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
         // Elements container
+        panelTitulo = new JPanel();
         titleLabel = new JLabel("ALQUILER DE PELICULAS");
         titleLabel.setFont(new Font("Courier New", Font.BOLD, 26));
-        container.add(BorderLayout.BEFORE_FIRST_LINE, titleLabel);
+        panelTitulo.add(titleLabel);
         
-        
+        controlPanel = new JPanel();
         viewPanel = new JPanel();
-        viewPanel.setPreferredSize(new Dimension(700, 100));
-        viewPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        viewPanel.setPreferredSize(new Dimension(300, 50));
+//        viewPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		DefaultTableModel model = new DefaultTableModel();
 
@@ -93,15 +101,15 @@ public class PedidoWindow extends JFrame {
 		model.addColumn("Seleccionar");
 
 		titulos = new ArrayList<String>();
-		peliculas = PeliculaDAO.getPeliculas();
-
-		for (Pelicula pelicula : peliculas) {
-			String[] datosPelicula = new String[] { pelicula.getId().toString(), pelicula.getTitulo() };
-
-			Object[] data = new Object[] { pelicula.getId().toString(), pelicula.getTitulo(), pelicula.getPrecio().toString(),
-					pelicula.getDuracion(), pelicula.getDirector(), pelicula.getGenero(), false };
-			model.addRow(data);
-		}
+//		peliculas = PeliculaDAO.getPeliculas();
+//
+//		for (Pelicula pelicula : peliculas) {
+//			String[] datosPelicula = new String[] { pelicula.getId().toString(), pelicula.getTitulo() };
+//
+//			Object[] data = new Object[] { pelicula.getId().toString(), pelicula.getTitulo(), pelicula.getPrecio().toString(),
+//					pelicula.getDuracion(), pelicula.getDirector(), pelicula.getGenero(), false };
+//			model.addRow(data);
+//		}
 		table = new JTable(model) {
 
 			private static final long serialVersionUID = 1L;
@@ -128,69 +136,94 @@ public class PedidoWindow extends JFrame {
 		};
 		
 		JScrollPane scrollPane = new JScrollPane(table);
-        viewPanel.add( scrollPane );
+		scrollPane.setPreferredSize(new Dimension(690, 410));
+        viewPanel.add(scrollPane);
         
+        container.add(BorderLayout.CENTER, viewPanel);
+          
         
-
-        container.add(BorderLayout.WEST, viewPanel);
-        
-        
-        
-        controlPanel = new JPanel();
-        controlPanel.setPreferredSize(new Dimension(200, 800));
+        controlPanel.setPreferredSize(new Dimension(200, 150));
         buttonLogin = new JButton("Login");
+        buttonLogin.setPreferredSize(new Dimension(200, 40));
+        
         buttonLogin.addActionListener(new ActionListener () {
         	public void actionPerformed (ActionEvent e) {
         		System.out.println("Hola");
         		Login login = new Login();
         		login.start();
-        		
+        		frame.setVisible(false);
 			}
         });
         
         buttonCart = new JButton("Cart");
+        buttonCart.setPreferredSize(new Dimension(200, 40));
         buttonCart.addActionListener(new ActionListener () {
         	public void actionPerformed (ActionEvent e) {
-        		CartView cart = new CartView();
-        		cart.setDefaultCloseOperation( EXIT_ON_CLOSE );
+        		CartView cart = new CartView(peliculasSeleccionadas);
+        		cart.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         		cart.pack();
         		cart.setVisible(true);
         	}
         });
         
         buttonAdd = new JButton("Add to Cart");
+        buttonAdd.setPreferredSize(new Dimension(200, 40));
         buttonAdd.addActionListener(new ActionListener () {
         	public void actionPerformed (ActionEvent e) {
         		addToCart(table);
-        		List<Pelicula> peliculasSeleccionadas = new ArrayList<Pelicula>();
+        		peliculasSeleccionadas = new ArrayList<Pelicula>();
         		for (String titulo : titulos) {
         			for (Pelicula pelicula : peliculas) {
         				String datosPelicula = pelicula.getTitulo();
         				if(datosPelicula == titulo) {
         					peliculasSeleccionadas.add(pelicula);
+        					JOptionPane.showMessageDialog(null, "Peliculas añadidas al carro");
         				}
         			}
-        		}  
+        		}
+        		
         	}
         });
         
         buttonManagement = new JButton("Gestion de pedidos");
+        buttonManagement.setPreferredSize(new Dimension(200, 40));
         buttonManagement.addActionListener(new ActionListener() {
         	public void actionPerformed (ActionEvent e) {
         		PedidoManagement gestion = new PedidoManagement();
-        		gestion.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        		gestion.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         		gestion.pack();
         		gestion.setVisible(true);
         	}
         });
+		labelUser = new JLabel();
+        if(userLogued) {
+			labelUser.setText("Usuario conectado: " + user);
+			controlPanel.add(BorderLayout.NORTH, labelUser);
+			buttonLogin.setVisible(false);
+			JButton buttonLogOut = new JButton("Log Out");
+			buttonLogOut.setPreferredSize(new Dimension(200, 40));
+	        buttonLogOut.addActionListener(new ActionListener() {
+	        	public void actionPerformed (ActionEvent e) {
+	        		labelUser.setText("");
+	        		labelUser.setVisible(false);
+	        		buttonLogOut.setVisible(false);
+	        		buttonLogin.setVisible(true);
+	        	}
+	        });
+			controlPanel.add(BorderLayout.NORTH, buttonLogOut);
+			
+		}
         
+        container.add(BorderLayout.NORTH, panelTitulo);
         controlPanel.add(BorderLayout.NORTH, buttonLogin);
         controlPanel.add(BorderLayout.NORTH, buttonCart);
         controlPanel.add(BorderLayout.SOUTH, buttonAdd);
         controlPanel.add(BorderLayout.SOUTH, buttonManagement);
         container.add(BorderLayout.EAST, controlPanel);
         
-        frame.getContentPane().add(BorderLayout.CENTER, container);
+        
+        
+        frame.getContentPane().add(container);
         frame.setVisible(true);
 
 	}

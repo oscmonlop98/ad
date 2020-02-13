@@ -49,6 +49,10 @@ public class PedidoLinea {
 		this.pelicula = pelicula;
 	}
 	
+	public Pelicula getPelicula() {
+		return pelicula;
+	}
+	
 	public BigDecimal getPrecio() {
 		return precio;
 	}

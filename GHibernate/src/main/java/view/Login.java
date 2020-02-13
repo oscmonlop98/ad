@@ -32,7 +32,7 @@ public class Login {
 		
 		frame = new JFrame();
         frame.setTitle("Login");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         addComponentsToPane(frame.getContentPane());
         
@@ -121,14 +121,16 @@ public class Login {
 		String password = "";
 		username = entryLogin.getText();
 		password = entryPassword.getText();
-		
-		if (ClienteDAO.getUser(username, password)) {
-			System.out.println(username + " " + password);
-			System.out.println("TODO OK");
-		} else {
-			System.out.println("MAL");
-			System.out.println(username + " " + password);
-		}
+		PedidoWindow window = new PedidoWindow(true, username);
+		window.setVisible(true);
+//		if (ClienteDAO.getUser(username, password)) {
+//			PedidoWindow window = new PedidoWindow(true, username);
+//			window.setVisible(true);
+//			
+//		} else {
+//			System.out.println("MAL");
+//			System.out.println(username + " " + password);
+//		}
 		
 	}
 

@@ -17,7 +17,7 @@ public class Pelicula {
 	
 	private Long id;
 	private String titulo;
-	private int duracion;
+	private String duracion;
 	private String director;
 	private String genero;
 	private BigDecimal precio = BigDecimal.ZERO;
@@ -42,11 +42,11 @@ public class Pelicula {
 		this.titulo = titulo;
 	}
 
-	public int getDuracion() {
+	public String getDuracion() {
 		return duracion;
 	}
 
-	public void setDuracion(int duracion) {
+	public void setDuracion(String duracion) {
 		this.duracion = duracion;
 	}
 
