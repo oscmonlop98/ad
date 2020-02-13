@@ -52,15 +52,15 @@ public class ManageFilm extends JFrame {
 		model.addColumn("Seleccionar");
 
 		titulos = new ArrayList<String>();
-//		peliculas = PeliculaDAO.getPeliculas();
-//
-//		for (Pelicula pelicula : peliculas) {
-//			String[] datosPelicula = new String[] { pelicula.getId().toString(), pelicula.getTitulo() };
-//
-//			Object[] data = new Object[] { pelicula.getId().toString(), pelicula.getTitulo(), pelicula.getPrecio().toString(),
-//					pelicula.getDuracion(), pelicula.getDirector(), pelicula.getGenero(), false };
-//			model.addRow(data);
-//		}
+		peliculas = PeliculaDAO.getPeliculas();
+
+		for (Pelicula pelicula : peliculas) {
+			String[] datosPelicula = new String[] { pelicula.getId().toString(), pelicula.getTitulo() };
+
+			Object[] data = new Object[] { pelicula.getId().toString(), pelicula.getTitulo(), pelicula.getPrecio().toString(),
+					pelicula.getDuracion(), pelicula.getDirector(), pelicula.getGenero(), false };
+			model.addRow(data);
+		}
 		table = new JTable(model) {
 
 			private static final long serialVersionUID = 1L;

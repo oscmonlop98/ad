@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -48,15 +49,15 @@ public class ManageClient extends JFrame {
 
 		nombres = new ArrayList<String>();
 		
-//		clientes = ClienteDAO.getClientes();
-//
-//		for (Cliente cliente : clientes) {
-//			
-//			String[] datosCliente = new String[] { cliente.getId().toString(), cliente.getNombre() };
-//
-//			Object[] data = new Object[] { cliente.getId().toString(), cliente.getNombre(), false };
-//			model.addRow(data);
-//		}
+		clientes = ClienteDAO.getClientes();
+
+		for (Cliente cliente : clientes) {
+			
+			String[] datosCliente = new String[] { cliente.getId().toString(), cliente.getNombre() };
+
+			Object[] data = new Object[] { cliente.getId().toString(), cliente.getNombre(), false };
+			model.addRow(data);
+		}
 		
 		table = new JTable(model) {
 
@@ -83,6 +84,7 @@ public class ManageClient extends JFrame {
         	public void actionPerformed (ActionEvent e) {
         		AddFormClient a = new AddFormClient();
         		a.setVisible(true);
+        		setVisible(false);
         	}
         });
         
@@ -96,6 +98,14 @@ public class ManageClient extends JFrame {
         				String datosCliente = cliente.getNombre();
         				if(datosCliente == nombre) {
         					ClienteDAO.eliminarCliente(cliente);
+        					JOptionPane.showMessageDialog(null, "Se ha eliminado correctamente");
+        					setVisible(false);
+        					ManageClient nueva = new ManageClient();
+        					nueva.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        	        		nueva.pack();
+        					nueva.setVisible(true);
+        					
+        					
         				}
         			}
         		}        		

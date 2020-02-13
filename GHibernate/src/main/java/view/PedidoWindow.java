@@ -36,9 +36,8 @@ import dao.PeliculaDAO;
 import model.Cliente;
 import model.Pelicula;
 
-
 public class PedidoWindow extends JFrame {
-	
+
 	private static JFrame frame;
 	private static JPanel container;
 	private static JPanel viewPanel;
@@ -51,43 +50,43 @@ public class PedidoWindow extends JFrame {
 	private static JButton buttonManagement;
 	private static JTable table;
 	private static List<Pelicula> peliculas;
-	private static ArrayList<String> titulos; 
+	private static ArrayList<String> titulos;
 	private static ArrayList<Pelicula> peliculasSeleccionadas;
 	private static JPanel panelTitulo;
 	private static JLabel labelUser;
-	
-	
-	public PedidoWindow(boolean userLogued, String user) {
-		
+
+	public PedidoWindow(boolean userLogued, Cliente user) {
+
 		// Frame configuration
-        frame = new JFrame();
-        frame.setTitle("Videoclub");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
+		frame = new JFrame();
+		frame.setTitle("Videoclub");
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		peliculasSeleccionadas = new ArrayList<Pelicula>();
+
 		Toolkit myScreen = Toolkit.getDefaultToolkit();
 		Dimension screenSize = myScreen.getScreenSize();
-		
+
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
-		
-		frame.setSize(screenWidth/2, screenHeight/2);
-		frame.setLocation(screenWidth/4, screenHeight/4);
-        frame.setResizable(false);
-		
+
+		frame.setSize(screenWidth / 2, screenHeight / 2);
+		frame.setLocation(screenWidth / 4, screenHeight / 4);
+		frame.setResizable(false);
+
 		// Container initial configuration
-        container = new JPanel();
-        container.setLayout(new BorderLayout());
-        container.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        
-        // Elements container
-        panelTitulo = new JPanel();
-        titleLabel = new JLabel("ALQUILER DE PELICULAS");
-        titleLabel.setFont(new Font("Courier New", Font.BOLD, 26));
-        panelTitulo.add(titleLabel);
-        
-        controlPanel = new JPanel();
-        viewPanel = new JPanel();
-        viewPanel.setPreferredSize(new Dimension(300, 50));
+		container = new JPanel();
+		container.setLayout(new BorderLayout());
+		container.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+		// Elements container
+		panelTitulo = new JPanel();
+		titleLabel = new JLabel("ALQUILER DE PELICULAS");
+		titleLabel.setFont(new Font("Courier New", Font.BOLD, 26));
+		panelTitulo.add(titleLabel);
+
+		controlPanel = new JPanel();
+		viewPanel = new JPanel();
+		viewPanel.setPreferredSize(new Dimension(300, 50));
 //        viewPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		DefaultTableModel model = new DefaultTableModel();
@@ -101,15 +100,16 @@ public class PedidoWindow extends JFrame {
 		model.addColumn("Seleccionar");
 
 		titulos = new ArrayList<String>();
-//		peliculas = PeliculaDAO.getPeliculas();
-//
-//		for (Pelicula pelicula : peliculas) {
-//			String[] datosPelicula = new String[] { pelicula.getId().toString(), pelicula.getTitulo() };
-//
-//			Object[] data = new Object[] { pelicula.getId().toString(), pelicula.getTitulo(), pelicula.getPrecio().toString(),
-//					pelicula.getDuracion(), pelicula.getDirector(), pelicula.getGenero(), false };
-//			model.addRow(data);
-//		}
+		peliculas = PeliculaDAO.getPeliculas();
+
+		for (Pelicula pelicula : peliculas) {
+			String[] datosPelicula = new String[] { pelicula.getId().toString(), pelicula.getTitulo() };
+
+			Object[] data = new Object[] { pelicula.getId().toString(), pelicula.getTitulo(),
+					pelicula.getPrecio().toString(), pelicula.getDuracion(), pelicula.getDirector(),
+					pelicula.getGenero(), false };
+			model.addRow(data);
+		}
 		table = new JTable(model) {
 
 			private static final long serialVersionUID = 1L;
@@ -134,120 +134,121 @@ public class PedidoWindow extends JFrame {
 				}
 			}
 		};
-		
+
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(690, 410));
-        viewPanel.add(scrollPane);
-        
-        container.add(BorderLayout.CENTER, viewPanel);
-          
-        
-        controlPanel.setPreferredSize(new Dimension(200, 150));
-        buttonLogin = new JButton("Login");
-        buttonLogin.setPreferredSize(new Dimension(200, 40));
-        
-        buttonLogin.addActionListener(new ActionListener () {
-        	public void actionPerformed (ActionEvent e) {
-        		System.out.println("Hola");
-        		Login login = new Login();
-        		login.start();
-        		frame.setVisible(false);
+		viewPanel.add(scrollPane);
+
+		container.add(BorderLayout.CENTER, viewPanel);
+
+		controlPanel.setPreferredSize(new Dimension(200, 150));
+		buttonLogin = new JButton("Login");
+		buttonLogin.setPreferredSize(new Dimension(200, 40));
+
+		buttonLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Hola");
+				Login login = new Login();
+				login.start();
+				frame.setVisible(false);
 			}
-        });
-        
-        buttonCart = new JButton("Cart");
-        buttonCart.setPreferredSize(new Dimension(200, 40));
-        buttonCart.addActionListener(new ActionListener () {
-        	public void actionPerformed (ActionEvent e) {
-        		CartView cart = new CartView(peliculasSeleccionadas);
-        		cart.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        		cart.pack();
-        		cart.setVisible(true);
-        	}
-        });
-        
-        buttonAdd = new JButton("Add to Cart");
-        buttonAdd.setPreferredSize(new Dimension(200, 40));
-        buttonAdd.addActionListener(new ActionListener () {
-        	public void actionPerformed (ActionEvent e) {
-        		addToCart(table);
-        		peliculasSeleccionadas = new ArrayList<Pelicula>();
-        		for (String titulo : titulos) {
-        			for (Pelicula pelicula : peliculas) {
-        				String datosPelicula = pelicula.getTitulo();
-        				if(datosPelicula == titulo) {
-        					peliculasSeleccionadas.add(pelicula);
-        					JOptionPane.showMessageDialog(null, "Peliculas a�adidas al carro");
-        				}
-        			}
-        		}
-        		
-        	}
-        });
-        
-        buttonManagement = new JButton("Gestion de pedidos");
-        buttonManagement.setPreferredSize(new Dimension(200, 40));
-        buttonManagement.addActionListener(new ActionListener() {
-        	public void actionPerformed (ActionEvent e) {
-        		PedidoManagement gestion = new PedidoManagement();
-        		gestion.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        		gestion.pack();
-        		gestion.setVisible(true);
-        	}
-        });
+		});
+
+		buttonCart = new JButton("Cart");
+		buttonCart.setPreferredSize(new Dimension(200, 40));
+		buttonCart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (peliculasSeleccionadas.size() > 0) {
+					CartView cart = new CartView(peliculasSeleccionadas, user);
+					cart.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					cart.pack();
+					cart.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "El carro está vacío!");
+				}
+
+			}
+		});
+
+		buttonAdd = new JButton("Add to Cart");
+		buttonAdd.setPreferredSize(new Dimension(200, 40));
+		buttonAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addToCart(table);
+				peliculasSeleccionadas.clear();
+				for (String titulo : titulos) {
+					for (Pelicula pelicula : peliculas) {
+						String datosPelicula = pelicula.getTitulo();
+						if (datosPelicula == titulo) {
+							peliculasSeleccionadas.add(pelicula);
+							JOptionPane.showMessageDialog(null, "Peliculas a�adidas al carro");
+						}
+					}
+				}
+
+			}
+		});
+
+		buttonManagement = new JButton("Gestion de pedidos");
+		buttonManagement.setPreferredSize(new Dimension(200, 40));
+		buttonManagement.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PedidoManagement gestion = new PedidoManagement();
+				gestion.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				gestion.pack();
+				gestion.setVisible(true);
+			}
+		});
 		labelUser = new JLabel();
-        if(userLogued) {
-			labelUser.setText("Usuario conectado: " + user);
+		if (userLogued) {
+			labelUser.setText("Usuario conectado: " + user.getNombre());
 			controlPanel.add(BorderLayout.NORTH, labelUser);
 			buttonLogin.setVisible(false);
 			JButton buttonLogOut = new JButton("Log Out");
 			buttonLogOut.setPreferredSize(new Dimension(200, 40));
-	        buttonLogOut.addActionListener(new ActionListener() {
-	        	public void actionPerformed (ActionEvent e) {
-	        		labelUser.setText("");
-	        		labelUser.setVisible(false);
-	        		buttonLogOut.setVisible(false);
-	        		buttonLogin.setVisible(true);
-	        	}
-	        });
+			buttonLogOut.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					labelUser.setText("");
+					labelUser.setVisible(false);
+					buttonLogOut.setVisible(false);
+					buttonLogin.setVisible(true);
+				}
+			});
 			controlPanel.add(BorderLayout.NORTH, buttonLogOut);
-			
+
 		}
-        
-        container.add(BorderLayout.NORTH, panelTitulo);
-        controlPanel.add(BorderLayout.NORTH, buttonLogin);
-        controlPanel.add(BorderLayout.NORTH, buttonCart);
-        controlPanel.add(BorderLayout.SOUTH, buttonAdd);
-        controlPanel.add(BorderLayout.SOUTH, buttonManagement);
-        container.add(BorderLayout.EAST, controlPanel);
-        
-        
-        
-        frame.getContentPane().add(container);
-        frame.setVisible(true);
+
+		container.add(BorderLayout.NORTH, panelTitulo);
+		controlPanel.add(BorderLayout.NORTH, buttonLogin);
+		controlPanel.add(BorderLayout.NORTH, buttonCart);
+		controlPanel.add(BorderLayout.SOUTH, buttonAdd);
+		controlPanel.add(BorderLayout.SOUTH, buttonManagement);
+		container.add(BorderLayout.EAST, controlPanel);
+
+		frame.getContentPane().add(container);
+		frame.setVisible(true);
 
 	}
-	
-	
+
 	public static void initializeLogin() {
 		userLabel.setText("Holaaaaaaaaaaaaaaaaaaaaaaaa");
 		container.add(BorderLayout.WEST, userLabel);
 	}
-	
+
 	public static void addToCart(JTable tabla) {
-		
+
 		TableModel model = tabla.getModel();
-		
-	    for (int i = 0; i <= model.getRowCount() - 1; i++) {    
-	        if ((Boolean) model.getValueAt(i, 6)) {
-	           titulos.add(model.getValueAt(i, 1).toString());
-	        }
-	    }
-		
+
+		for (int i = 0; i <= model.getRowCount() - 1; i++) {
+			if ((Boolean) model.getValueAt(i, 6)) {
+				titulos.add(model.getValueAt(i, 1).toString());
+			}
+		}
+
 	}
-	
+
 	public static void doCheckout() {
-		
+
 	}
 
 }

@@ -13,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Cliente;
+
 
 public class AdministrationWindow extends JFrame {
 	
@@ -64,8 +66,8 @@ public class AdministrationWindow extends JFrame {
         buttonPedidos.setPreferredSize(new Dimension(210,100));
         buttonPedidos.addActionListener(new ActionListener () {
         	public void actionPerformed (ActionEvent e) {
-        		String user = "";
-        		PedidoWindow myWindow = new PedidoWindow(false, user);
+        		Cliente cliente = new Cliente();
+        		PedidoWindow myWindow = new PedidoWindow(false, cliente);
         		myWindow.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         	}
         });

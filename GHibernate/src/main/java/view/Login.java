@@ -13,10 +13,12 @@ import java.net.UnknownHostException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import dao.ClienteDAO;
+import model.Cliente;
 import view.PedidoWindow;
 
 public class Login {
@@ -121,16 +123,19 @@ public class Login {
 		String password = "";
 		username = entryLogin.getText();
 		password = entryPassword.getText();
-		PedidoWindow window = new PedidoWindow(true, username);
-		window.setVisible(true);
-//		if (ClienteDAO.getUser(username, password)) {
-//			PedidoWindow window = new PedidoWindow(true, username);
-//			window.setVisible(true);
-//			
-//		} else {
-//			System.out.println("MAL");
-//			System.out.println(username + " " + password);
-//		}
+		Cliente cliente= ClienteDAO.getUser(username, password);
+		if (cliente != null) {
+			PedidoWindow window = new PedidoWindow(true, cliente);
+			window.setVisible(true);
+			
+		} else {
+			JOptionPane.showMessageDialog(null, "Datos incorrectos, vuelve a intentarlo");
+			frame.setVisible(false);
+			Login login = new Login();
+			login.start();
+			System.out.println("MAL");
+			System.out.println(username + " " + password);
+		}
 		
 	}
 

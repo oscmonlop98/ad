@@ -58,15 +58,19 @@ public class ClienteDAO {
 
 	}
 	
-	public static boolean getUser(String name, String password) {
-		boolean resultado = false;
+	public static Cliente getUser(String name, String password) {
+		Cliente resultado = null;
 		System.out.println("Estoy en el DAO " + name + " " + password);
 		List<Cliente> clientes = UnidadPersistencia.getInstance().getEntityManager().createQuery(
 				"from Cliente where nombre='" + name + "' AND contrasenya='" + password + "'" , Cliente.class).getResultList();
 		if(clientes.size() == 1)
-			resultado = true;
+			resultado = clientes.get(0);
 			
 		return resultado;
+	}
+	
+	public static void insert(Cliente articulo) {
+		UnidadPersistencia.getInstance().getEntityManager().persist(articulo);
 	}
 
 }

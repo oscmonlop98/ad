@@ -11,11 +11,7 @@ import model.Pelicula;
 
 public class PeliculaDAO {
 
-	public static void InsertarPelicula (String titulo){
-		
-		Pelicula pelicula = new Pelicula();
-		
-		pelicula.setTitulo(titulo);					
+	public static void InsertarPelicula (Pelicula pelicula){
 		
 		UnidadPersistencia.getInstance().getEntityManager().getTransaction().begin();
 		

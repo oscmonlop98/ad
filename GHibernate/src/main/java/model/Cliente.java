@@ -43,14 +43,14 @@ public class Cliente {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-//	
-//	public String getUsuario() {
-//		return usuario;
-//	}
-//	
-//	public void setUsuario() {
-//		this.usuario = usuario;
-//	}
+	
+	public String getUsuario() {
+		return usuario;
+	}
+	
+	public void setUsuario() {
+		this.usuario = usuario;
+	}
 	
 	public String getContrasenya() {
 		return contrasenya;

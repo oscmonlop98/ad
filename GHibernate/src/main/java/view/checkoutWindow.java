@@ -32,7 +32,7 @@ public class checkoutWindow extends JFrame{
         buttonPedido = new JButton("Realizar pedido");
         buttonPedido.addActionListener(new ActionListener() {
         	public void actionPerformed (ActionEvent e) {
-        		PedidoDAO.InsertarPedido();
+//        		PedidoDAO.InsertarPedido();
         		// Pasar los parametros necesarios para realizar el pedido.
         	}
         });

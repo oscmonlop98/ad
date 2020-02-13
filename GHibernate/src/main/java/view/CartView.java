@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -29,7 +30,7 @@ public class CartView extends JFrame{
 	private static JPanel container;
 	private static JTable table;
 	
-	public CartView (ArrayList<Pelicula> peliculasSeleccionadas) {
+	public CartView (ArrayList<Pelicula> peliculasSeleccionadas, Cliente user) {
 		frame = new JFrame();
 		panelView = new JPanel();
 		container = new JPanel();
@@ -45,14 +46,14 @@ public class CartView extends JFrame{
 		model.addColumn("Director");
 		model.addColumn("Genero");
 
-//		for (Pelicula pelicula : peliculasSeleccionadas) {
-////			String[] datosPelicula = new String[] { pelicula.getId().toString(), pelicula.getTitulo(), pelicula.getPrecio().toString(),
-////					pelicula.getDuracion(), pelicula.getDirector(), pelicula.getGenero(), peli };
-//
-//			Object[] data = new Object[] { pelicula.getId().toString(), pelicula.getTitulo(), pelicula.getPrecio().toString(),
-//					pelicula.getDuracion(), pelicula.getDirector(), pelicula.getGenero(), false };
-//			model.addRow(data);
-//		}
+		for (Pelicula pelicula : peliculasSeleccionadas) {
+//			String[] datosPelicula = new String[] { pelicula.getId().toString(), pelicula.getTitulo(), pelicula.getPrecio().toString(),
+//					pelicula.getDuracion(), pelicula.getDirector(), pelicula.getGenero(), peli };
+
+			Object[] data = new Object[] { pelicula.getId().toString(), pelicula.getTitulo(), pelicula.getPrecio().toString(),
+					pelicula.getDuracion(), pelicula.getDirector(), pelicula.getGenero(), false };
+			model.addRow(data);
+		}
 		table = new JTable(model) {
 
 			private static final long serialVersionUID = 1L;
@@ -84,7 +85,7 @@ public class CartView extends JFrame{
         buttonAdd = new JButton("Checkout");
         buttonAdd.addActionListener(new ActionListener () {
         	public void actionPerformed (ActionEvent e) {
-        		realizarPedido(peliculasSeleccionadas);
+        		realizarPedido(peliculasSeleccionadas, user);
         	}
         });
         
@@ -97,31 +98,32 @@ public class CartView extends JFrame{
 
 	}
 	
-	public static void realizarPedido(ArrayList<Pelicula> peliculasSeleccionadas) {
-		//Ficticio, pasar el cliente logueado
-		Cliente cliente = new Cliente();
-		
-		Pedido pedido = new Pedido(cliente);
+	public static void realizarPedido(ArrayList<Pelicula> peliculasSeleccionadas, Cliente user) {
+				
+		Pedido pedido = new Pedido(user);
+//		pedido.setCliente(user);
 		
 		List<PedidoLinea> lineas = new ArrayList<PedidoLinea>();
 		
 		for (Pelicula pelicula: peliculasSeleccionadas) {
 			
-			for (PedidoLinea linea: lineas) {
-				if (linea.getPelicula().getId() == pelicula.getId()) {
-					BigDecimal unidades = linea.getUnidades();
-					unidades = unidades.add(new BigDecimal(1));
-					linea.setUnidades(unidades);
-				}
-			}
-			
 			PedidoLinea nuevaLinea = new PedidoLinea(pedido);
 			nuevaLinea.setArticulo(pelicula);
 			nuevaLinea.setUnidades(new BigDecimal(1));
+			nuevaLinea.setPrecio(pelicula.getPrecio());
+			BigDecimal unidades = nuevaLinea.getUnidades();
+//			unidades = unidades.add(new BigDecimal(1));
+			nuevaLinea.setUnidades(unidades);
 			lineas.add(nuevaLinea);
+			System.out.println(user.getId());
+			
+			
+			JOptionPane.showMessageDialog(null, "Pedido Realizado");
+			frame.setVisible(false);
 		}
+		PedidoDAO.InsertarPedido(pedido, user);
 		
-		PedidoDAO.InsertarPedido();
+		
 	}
 
 }

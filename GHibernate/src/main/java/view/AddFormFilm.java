@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,6 +17,7 @@ import javax.swing.JTextField;
 
 import dao.ClienteDAO;
 import dao.PeliculaDAO;
+import model.Pelicula;
 
 public class AddFormFilm extends JFrame{
 	
@@ -70,9 +72,16 @@ public class AddFormFilm extends JFrame{
 		buttonAdd.setPreferredSize(new Dimension(220,30));
 		buttonAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String tituloPelicula;
-				tituloPelicula = fieldTitulo.getText();
-				PeliculaDAO.InsertarPelicula(tituloPelicula);
+				Pelicula pelicula = new Pelicula();
+				
+				pelicula.setTitulo(fieldTitulo.getText());
+				BigDecimal precio = new BigDecimal(fieldPrecio.getText());
+				pelicula.setPrecio(precio);
+				pelicula.setDuracion(fieldDuracion.getText());
+				pelicula.setDirector(fieldDirector.getText());
+				pelicula.setGenero(fieldGenero.getText());
+				
+				PeliculaDAO.InsertarPelicula(pelicula);
 			}
 		});
 		

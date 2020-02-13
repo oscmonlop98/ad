@@ -10,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -49,6 +50,12 @@ public class AddFormClient extends JFrame{
 				contrasenya = passwordField.getText();
 				System.out.println("Nombre: " + username + " contraseña: " + contrasenya);
 				ClienteDAO.insertarCliente(username, contrasenya);
+				JOptionPane.showMessageDialog(null, "Se ha creado el cliente " + username);
+				setVisible(false);
+				ManageClient manageClient = new ManageClient();
+        		manageClient.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        		manageClient.pack();
+        		manageClient.setVisible(true);
 			}
 		});
 		

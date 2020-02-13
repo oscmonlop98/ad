@@ -30,7 +30,7 @@ public class Pedido {
 	@JoinColumn(name="cliente")
 	private Cliente cliente;
 	
-	@OneToMany (mappedBy ="pedido", cascade =CascadeType.ALL,orphanRemoval =true)
+	@OneToMany (mappedBy ="pedido", cascade= CascadeType.ALL,orphanRemoval =true)
 	private List<PedidoLinea> pedidoLineas = new ArrayList<PedidoLinea>();
 	
 	private Pedido() {} //Hibernate necesita un ctor sin parámetros
@@ -60,7 +60,13 @@ public class Pedido {
 		preGetImporte();
 		return importe;
 	}
+
 	
+	
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
 	public Cliente getCliente() {
 		return cliente;
 	}
