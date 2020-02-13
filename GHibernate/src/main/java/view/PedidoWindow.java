@@ -181,11 +181,11 @@ public class PedidoWindow extends JFrame {
 						String datosPelicula = pelicula.getTitulo();
 						if (datosPelicula == titulo) {
 							peliculasSeleccionadas.add(pelicula);
-							JOptionPane.showMessageDialog(null, "Peliculas a�adidas al carro");
+							
 						}
 					}
 				}
-
+				JOptionPane.showMessageDialog(null, "Peliculas añadidas al carro");
 			}
 		});
 

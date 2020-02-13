@@ -87,6 +87,7 @@ public class ManageFilm extends JFrame {
 		};
 
 		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setPreferredSize(new Dimension(870,280));
 		panelView.add(scrollPane);
 		
         buttonAdd = new JButton("Añadir peliculas");
@@ -118,6 +119,7 @@ public class ManageFilm extends JFrame {
         
         add(BorderLayout.NORTH, panelView);
         add(BorderLayout.SOUTH, container);
+        setPreferredSize(new Dimension(900,360));
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}

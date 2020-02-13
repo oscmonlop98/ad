@@ -118,9 +118,11 @@ public class CartView extends JFrame{
 			System.out.println(user.getId());
 			
 			
-			JOptionPane.showMessageDialog(null, "Pedido Realizado");
-			frame.setVisible(false);
+			
+			
 		}
+		frame.setVisible(false);
+		JOptionPane.showMessageDialog(null, "Pedido Realizado");
 		PedidoDAO.InsertarPedido(pedido, user);
 		
 		

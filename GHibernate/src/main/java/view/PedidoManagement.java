@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -91,6 +92,12 @@ public class PedidoManagement extends JFrame{
         				if(datosPedido.equals(idPedido)) {
         					System.out.println("HOLAAA");
         					PedidoDAO.eliminarPedido(pedido1);
+        					JOptionPane.showMessageDialog(null, "Se han eliminado correctamente los pedidos.");
+        					setVisible(false);
+        					PedidoManagement nueva = new PedidoManagement();
+        					nueva.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        					nueva.pack();
+        					nueva.setVisible(true);
         				}
         			}
         		}    

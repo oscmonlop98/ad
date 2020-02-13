@@ -54,17 +54,17 @@ public class AddFormFilm extends JFrame{
 		fieldPrecio.setPreferredSize(new Dimension(150,20));
 		
 		labelDuracion = new JLabel("Duracion: ");
-		labelDuracion.setBorder(BorderFactory.createEmptyBorder(10,0,10,10));
+		labelDuracion.setBorder(BorderFactory.createEmptyBorder(10,0,10,8));
 		fieldDuracion = new JTextField();
 		fieldDuracion.setPreferredSize(new Dimension(150,20));
 		
 		labelDirector = new JLabel("Director: ");
-		labelDirector.setBorder(BorderFactory.createEmptyBorder(10,0,10,20));
+		labelDirector.setBorder(BorderFactory.createEmptyBorder(10,0,10,16));
 		fieldDirector = new JTextField();
 		fieldDirector.setPreferredSize(new Dimension(150,20));
 		
 		labelGenero = new JLabel("Genero: ");
-		labelGenero.setBorder(BorderFactory.createEmptyBorder(10,0,10,25));
+		labelGenero.setBorder(BorderFactory.createEmptyBorder(10,0,10,21));
 		fieldGenero = new JTextField();
 		fieldGenero.setPreferredSize(new Dimension(150,20));
 		
