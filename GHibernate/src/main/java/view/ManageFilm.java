@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -95,6 +96,7 @@ public class ManageFilm extends JFrame {
         	public void actionPerformed (ActionEvent e) {
         		AddFormFilm a = new AddFormFilm();
         		a.setVisible(true);
+        		setVisible(false);
         	}
         });
         
@@ -108,6 +110,13 @@ public class ManageFilm extends JFrame {
         				String datosPelicula = pelicula.getTitulo();
         				if(datosPelicula == titulo) {
         					PeliculaDAO.eliminarPelicula(pelicula);
+        					
+        					JOptionPane.showMessageDialog(null, "Se ha eliminado correctamente");
+        					setVisible(false);
+        					ManageFilm nueva = new ManageFilm();
+        					nueva.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        	        		nueva.pack();
+        					nueva.setVisible(true);
         				}
         			}
         		}    

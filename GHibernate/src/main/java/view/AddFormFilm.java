@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -82,6 +83,13 @@ public class AddFormFilm extends JFrame{
 				pelicula.setGenero(fieldGenero.getText());
 				
 				PeliculaDAO.InsertarPelicula(pelicula);
+				
+				JOptionPane.showMessageDialog(null, "Se ha creado la pelicula " + pelicula.getTitulo());
+				setVisible(false);
+				ManageFilm manageFilm = new ManageFilm();
+				manageFilm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				manageFilm.pack();
+				manageFilm.setVisible(true);
 			}
 		});
 		
